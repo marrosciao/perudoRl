@@ -156,41 +156,42 @@ public class Perudo {
     
     public void run(){
         for(int i=0;i<7500000;i++){
-        while(!isGameFinished())runOnce();
-                    for(Player p : players){
-                     
+            while(!isGameFinished())runOnce();
+            
+            for(Player p : players){         
                 if(p.dicesLeft()>0){
-                    //if(p.name=="Learning")System.out.println("win");
-                   p.updateGame(2);
+                    p.updateGame(2);
                     p.addGameResult(true);
                 }else{
                     p.updateGame(0);
                     p.addGameResult(false);
                 }
                 p.endOfGame();   
+            }
+        
+            if(i%10000==0){
+                //System.out.println("---------"+i+"----------");
+                LearningPlayer l=null;
+                SmartPlayer s = null;
+                for(Player p : players){
+                    if(p.name=="Learning"){
+                        l = (LearningPlayer)p;
+                        //System.out.print(i/10000+" "+(int)(l.wins)+" "+l.states.size());
                     }
-        if(i%10000==0){
-            //System.out.println("---------"+i+"----------");
-            LearningPlayer l=null;
-            SmartPlayer s = null;
-            for(Player p : players){
-                if(p.name=="Learning"){
-                    l = (LearningPlayer)p;
-                    //System.out.print(i/10000+" "+(int)(l.wins)+" "+l.states.size());
-                }
-                else if(p.name=="Smart"){
-                    s = (SmartPlayer)p;
-                    //System.out.print(" "+(int)(p.wins));
-                }else{
-                    p.reInitStats();
-                }
+                    else if(p.name=="Smart"){
+                        s = (SmartPlayer)p;
+                        //System.out.print(" "+(int)(p.wins));
+                    }else{
+                        p.reInitStats();
+                    }
                 
             }
+            
             System.out.println(i/10000+" "+(int)(l.wins)+" "+(int)(s.wins)+" "+l.states.size());
             s.reInitStats();
             l.reInitStats();
         }
-        if(i==1000000){
+        /*if(i==1000000){
             Player remove=null;
             for(Player p:players){
                 if(p.name=="Random"){
@@ -199,7 +200,7 @@ public class Perudo {
             }
             //players.remove(remove);
             players.add(new SmartPlayer("Random2", g));
-        }
+        }*/
         newGame();
         }
        
